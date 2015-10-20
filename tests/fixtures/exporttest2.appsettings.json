@@ -1,0 +1,8 @@
+{
+    "title": "ExportTest",
+    "wpbootstrap": {
+        "posts": {
+            "page": ["sample-page"]
+        }
+    }
+}

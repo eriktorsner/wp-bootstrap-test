@@ -1,0 +1,18 @@
+{
+	"autoload": {
+		"psr-4": {
+			"Wpbootstrap\\": "wp-bootstrap\\src"
+		}
+	},
+	"scripts": {
+		"wp-bootstrap": "Wpbootstrap\\Bootstrap::bootstrap",
+		"wp-install": "Wpbootstrap\\Bootstrap::install",
+		"wp-setup": "Wpbootstrap\\Bootstrap::setup",
+		"wp-update": "Wpbootstrap\\Bootstrap::update",
+		"wp-export": "Wpbootstrap\\Export::export",
+		"wp-import": "Wpbootstrap\\Import::import",
+		"wp-pullsettings": "Wpbootstrap\\Initbootstrap::updateAppSettings",
+		"wp-init": "Wpbootstrap\\Initbootstrap::init",
+		"wp-init-composer": "Wpbootstrap\\Initbootstrap::initComposer"
+	}
+}

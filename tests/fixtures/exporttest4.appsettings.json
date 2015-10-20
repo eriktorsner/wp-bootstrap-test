@@ -1,0 +1,11 @@
+{
+    "title": "ExportTest",
+    "plugins": {
+        "standard": ["wp-cfm"]
+    },
+    "wpbootstrap": {
+        "menus": {
+            "main": ["primary"]
+        }
+    }
+}

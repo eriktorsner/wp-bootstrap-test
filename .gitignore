@@ -1,0 +1,11 @@
+build/
+bootstrap/
+.vagrant/
+vendor/
+www/default
+www/wordpress-default
+www/wordpress-test
+www/wp-cli
+
+appsettings.json
+localsettings.json
