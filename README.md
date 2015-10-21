@@ -1,6 +1,5 @@
 # wp-bootstrap-test
-A separate repo for testing wp-bootstrap. Initiates a vagrant box with all
-relevant tools installed. Run phpunit etc. from inside vagrant to run tests
+A separate repo for testing [wp-bootstrap](https://github.com/eriktorsner/wp-bootstrap). Initiates a vagrant box with all relevant tools installed. Run phpunit etc. from inside vagrant to run tests
 against a proper WordPress installation.
 
 ## Getting started
