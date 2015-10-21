@@ -32,6 +32,27 @@ function copySettingsFiles($prefix)
     }
 }
 
+function clearSettingsFiles()
+{
+    @unlink(PROJECTROOT."/localsettings.json");
+    @unlink(PROJECTROOT."/appsettings.json");
+}
+
+function deleteState()
+{
+    $cmd = "rm -rf ".PROJECTROOT."/bootstrap/*";
+    exec($cmd);
+}
+
+function copyState($name)
+{
+    $cmd = sprintf("cp -a %s/tests/fixtures/%s/* %s/bootstrap/", PROJECTROOT, $name, PROJECTROOT);
+    exec($cmd);
+
+    $cmd = sprintf("mv %s/bootstrap/*settings.json %s/", PROJECTROOT, PROJECTROOT);
+    exec($cmd);
+}
+
 function setupWpInstallation($prefix)
 {
     copySettingsFiles($prefix);

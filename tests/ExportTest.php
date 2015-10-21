@@ -98,10 +98,26 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(isset($obj->meta));
     }
 
-    public function testExportSettings()
+    public function testExportTaxonomy()
     {
         Bootstrap::recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
         copySettingsFiles('exporttest4');
+        Export::export();
+
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/taxonomies'));
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/taxonomies/category'));
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/taxonomies/category/uncategorized'));
+
+        $obj = unserialize(file_get_contents(PROJECTROOT.'/bootstrap/taxonomies/category/uncategorized'));
+        $this->assertTrue($obj->name == 'Uncategorized');
+        $this->assertTrue($obj->slug == 'uncategorized');
+        $this->assertTrue($obj->taxonomy == 'category');
+    }
+
+    public function testExportSettings()
+    {
+        Bootstrap::recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
+        copySettingsFiles('exporttest5');
         Bootstrap::setup();
         Export::export();
 
