@@ -16,7 +16,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(file_exists($local));
         $this->assertFalse(file_exists($app));
 
-        Initbootstrap::init();
+        Initbootstrap::getInstance()->init();
 
         $this->assertTrue(file_exists($local));
         $this->assertTrue(file_exists($app));
@@ -33,7 +33,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
         $composerFile = './composer.json';
         $this->assertJson(file_get_contents($composerFile));
 
-        Initbootstrap::initComposer();
+        Initbootstrap::getInstance()->initComposer();
         $composer = json_decode(file_get_contents($composerFile));
 
         $names = array('wp-bootstrap', 'wp-install', 'wp-setup', 'wp-import', 'wp-export', 'wp-init');

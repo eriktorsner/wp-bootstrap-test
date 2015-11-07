@@ -2,6 +2,7 @@
 
 define('PROJECTROOT', dirname(dirname(__FILE__)));
 define('TESTMODE', true);
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 function deleteWpInstallation()
@@ -13,6 +14,7 @@ function deleteWpInstallation()
         PROJECTROOT
     );
     exec($mysql);
+
     $cmd = sprintf("rm -rf %s/www/wordpress-test", PROJECTROOT);
     exec($cmd);
 }
@@ -46,7 +48,7 @@ function deleteState()
 
 function copyState($name)
 {
-    $cmd = sprintf("cp -a %s/tests/fixtures/%s/* %s/bootstrap/", PROJECTROOT, $name, PROJECTROOT);
+    $cmd = sprintf("cp -fa %s/tests/fixtures/%s/* %s/bootstrap/", PROJECTROOT, $name, PROJECTROOT);
     exec($cmd);
 
     $cmd = sprintf("mv %s/bootstrap/*settings.json %s/", PROJECTROOT, PROJECTROOT);
@@ -62,4 +64,13 @@ function setupWpInstallation($prefix)
 
     $cmd = PROJECTROOT.'/wp-bootstrap/bin/wpbootstrap wp-setup';
     exec($cmd);
+}
+
+function prompt($msg = "Press any key")
+{
+    echo $msg."\n";
+    ob_flush();
+    $in = trim(fgets(STDIN));
+
+    return $in;
 }

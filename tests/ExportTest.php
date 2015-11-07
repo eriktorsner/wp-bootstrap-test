@@ -14,16 +14,18 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     {
         // in this test, appsettings doesn't comtains any settings for wp-bootstrap
         // wp-cfm is not installed and there are no posts or menus exported
-        Bootstrap::recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
-        Export::export();
+        Bootstrap::getInstance()->recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
+
+        Export::getInstance()->export();
         $this->assertFalse(file_exists(PROJECTROOT.'/bootstrap'));
     }
 
     public function testExportAPage()
     {
-        Bootstrap::recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
+        Bootstrap::getInstance()->recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
         copySettingsFiles('exporttest2');
-        Export::export();
+
+        Export::getInstance()->export();
 
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap'));
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/posts'));
@@ -49,9 +51,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $cmd = "wp --allow-root --path=www/wordpress-test menu item add-term main category 1";
         exec($cmd);
 
-        Bootstrap::recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
+        Bootstrap::getInstance()->recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
         copySettingsFiles('exporttest3');
-        Export::export();
+
+        Export::getInstance()->export();
 
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap'));
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/menus'));
@@ -82,9 +85,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $cmd = "wp --allow-root --path=www/wordpress-test media import $src --post_id=2 --featured_image";
         exec($cmd);
 
-        Bootstrap::recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
+        Bootstrap::getInstance()->recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
         copySettingsFiles('exporttest2');
-        Export::export();
+
+        Export::getInstance()->export();
 
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap'));
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/media'));
@@ -100,9 +104,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
     public function testExportTaxonomy()
     {
-        Bootstrap::recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
+        Bootstrap::getInstance()->recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
         copySettingsFiles('exporttest4');
-        Export::export();
+
+        Export::getInstance()->export();
 
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/taxonomies'));
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/taxonomies/category'));
@@ -114,12 +119,37 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($obj->taxonomy == 'category');
     }
 
+    public function testExportTaxonomy2()
+    {
+        $cmd = "wp --allow-root --path=www/wordpress-test term create category Fruit --description='Fruits'";
+        exec($cmd);
+        $cmd = "wp --allow-root --path=www/wordpress-test term create category Apple --parent=3 --description='Specific fruits'";
+        exec($cmd);
+
+        Bootstrap::getInstance()->recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
+        copySettingsFiles('exporttest5');
+
+        Export::getInstance()->export();
+
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/taxonomies'));
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/taxonomies/category'));
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/taxonomies/category/fruit'));
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/taxonomies/category/apple'));
+
+        $obj = unserialize(file_get_contents(PROJECTROOT.'/bootstrap/taxonomies/category/apple'));
+        $this->assertTrue($obj->name == 'Apple');
+        $this->assertTrue($obj->slug == 'apple');
+        $this->assertTrue($obj->description == 'Specific fruits');
+        $this->assertTrue($obj->taxonomy == 'category');
+    }
+
     public function testExportSettings()
     {
-        Bootstrap::recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
-        copySettingsFiles('exporttest5');
-        Bootstrap::setup();
-        Export::export();
+        Bootstrap::getInstance()->recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
+        copySettingsFiles('exporttest6');
+        Bootstrap::getInstance()->setup();
+
+        Export::getInstance()->export();
 
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/config'));
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/config/wpbootstrap.json'));

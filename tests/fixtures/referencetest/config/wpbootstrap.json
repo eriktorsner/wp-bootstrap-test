@@ -1,0 +1,15 @@
+{
+    "page_on_front": "22",
+    "show_on_front": "page",
+    "bootstrap_post_ref": "20",
+    "bootstrap_post_ref2": "O:8:\"stdClass\":1:{s:7:\"page_id\";s:2:\"20\";}",
+    "bootstrap_post_ref3": "a:3:{i:0;i:10;i:1;i:20;i:2;i:20;}",
+    "bootstrap_post_ref4": "O:8:\"stdClass\":2:{s:7:\"page_id\";i:20;s:13:\"other_page_id\";i:22;}",
+
+    "bootstrap_term_ref": "9",
+    "bootstrap_term_ref2": "O:8:\"stdClass\":1:{s:7:\"term_id\";s:1:\"8\";}",
+    "bootstrap_term_ref3": "a:3:{i:0;i:8;i:1;i:9;i:2;i:9;}",
+    "bootstrap_term_ref4": "O:8:\"stdClass\":2:{s:7:\"term_id\";i:8;s:13:\"other_term_id\";i:9;}",
+
+    ".label": "wpbootstrap."
+}
