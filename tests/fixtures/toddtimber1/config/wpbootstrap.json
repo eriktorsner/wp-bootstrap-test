@@ -1,0 +1,13 @@
+{
+    "metaslider_systemcheck": "a:2:{s:16:\"wordPressVersion\";b:0;s:12:\"imageLibrary\";b:0;}",
+    "ml-slider_children": "a:0:{}",
+    "page_on_front": "6",
+    "show_on_front": "page",
+    "sidebars_widgets": "a:5:{s:19:\"wp_inactive_widgets\";a:0:{}s:9:\"sidebar-1\";a:6:{i:0;s:8:\"search-2\";i:1;s:14:\"recent-posts-2\";i:2;s:17:\"recent-comments-2\";i:3;s:10:\"archives-2\";i:4;s:12:\"categories-2\";i:5;s:6:\"meta-2\";}s:14:\"sidebar-footer\";N;s:14:\"sidebar-header\";N;s:13:\"array_version\";i:3;}",
+    "theme_mods_vantage-child": "a:2:{s:17:\"version_activated\";s:5:\"1.4.4\";s:27:\"_theme_settings_current_tab\";s:1:\"0\";}",
+    "vantage_theme_settings": "a:42:{s:10:\"logo_image\";s:0:\"\";s:22:\"logo_in_menu_constrain\";b:1;s:16:\"logo_header_text\";s:15:\"Call me! Maybe?\";s:17:\"layout_responsive\";b:1;s:14:\"layout_fitvids\";b:1;s:12:\"layout_bound\";s:4:\"full\";s:15:\"layout_masthead\";s:12:\"logo-in-menu\";s:11:\"layout_menu\";s:5:\"empty\";s:13:\"layout_footer\";s:0:\"\";s:24:\"layout_force_panels_full\";b:1;s:11:\"home_slider\";s:4:\"demo\";s:19:\"home_slider_stretch\";b:1;s:26:\"navigation_use_sticky_menu\";b:1;s:22:\"navigation_menu_search\";b:1;s:32:\"navigation_display_scroll_to_top\";b:1;s:19:\"navigation_post_nav\";b:1;s:19:\"blog_archive_layout\";s:4:\"blog\";s:20:\"blog_archive_content\";s:4:\"full\";s:24:\"blog_featured_image_type\";s:5:\"large\";s:19:\"blog_featured_image\";b:1;s:18:\"blog_post_metadata\";b:1;s:14:\"blog_post_date\";b:1;s:16:\"blog_post_author\";b:1;s:20:\"blog_post_categories\";b:1;s:14:\"blog_post_tags\";b:1;s:14:\"blog_read_more\";s:16:\"Continue reading\";s:22:\"general_site_info_text\";s:0:\"\";s:20:\"premium_order_number\";s:0:\"\";s:17:\"logo_image_retina\";b:0;s:22:\"logo_no_widget_overlay\";b:0;s:26:\"navigation_responsive_menu\";b:0;s:31:\"navigation_responsive_menu_text\";b:0;s:33:\"navigation_responsive_menu_search\";b:0;s:20:\"navigation_home_icon\";b:0;s:28:\"navigation_mobile_navigation\";b:0;s:23:\"blog_post_comment_count\";b:0;s:15:\"blog_author_box\";b:0;s:20:\"social_ajax_comments\";b:0;s:17:\"social_share_post\";b:0;s:14:\"social_twitter\";b:0;s:23:\"general_adaptive_images\";b:0;s:25:\"general_js_enqueue_footer\";b:0;}",
+    "widget_circleicon-widget": "a:1:{s:12:\"_multiwidget\";i:1;}",
+    "widget_headline-widget": "a:1:{s:12:\"_multiwidget\";i:1;}",
+    "widget_vantage-social-media": "a:1:{s:12:\"_multiwidget\";i:1;}",
+    ".label": "wpbootstrap"
+}

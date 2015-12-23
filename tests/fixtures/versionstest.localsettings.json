@@ -1,0 +1,19 @@
+{
+    "environment": "test",
+    "url": "www.wpbootstraptest.local",
+    "dbhost": "localhost",
+    "dbname": "wordpress",
+    "dbuser": "wordpress",
+    "dbpass": "wordpress",
+    "wpuser": "admin",
+    "wppass": "admin",
+    "wppath": "/vagrant/www/wordpress-default",
+
+    "url_test": "test.wpbootstraptest.local",
+    "dbname_test": "wordpress-test",
+    "wppath_test": "/vagrant/www/wordpress-test",
+
+    "logfile": "log/wpbootstrap.log",
+    "loglevel": "DEBUG",
+    "consoleloglevel": "DEBUG"
+}

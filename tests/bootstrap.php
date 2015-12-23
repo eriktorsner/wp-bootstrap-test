@@ -1,6 +1,7 @@
 <?php
 
 define('PROJECTROOT', dirname(dirname(__FILE__)));
+define('BASEPATH', PROJECTROOT);
 define('TESTMODE', true);
 
 require_once __DIR__.'/../vendor/autoload.php';
@@ -15,20 +16,20 @@ function deleteWpInstallation()
     );
     exec($mysql);
 
-    $cmd = sprintf("rm -rf %s/www/wordpress-test", PROJECTROOT);
+    $cmd = sprintf('rm -rf %s/www/wordpress-test', PROJECTROOT);
     exec($cmd);
 }
 
 function copySettingsFiles($prefix)
 {
     $src = PROJECTROOT."/tests/fixtures/$prefix.localsettings.json";
-    $trg = PROJECTROOT."/localsettings.json";
+    $trg = PROJECTROOT.'/localsettings.json';
     if (file_exists($src)) {
         copy($src, $trg);
     }
 
     $src = PROJECTROOT."/tests/fixtures/$prefix.appsettings.json";
-    $trg = PROJECTROOT."/appsettings.json";
+    $trg = PROJECTROOT.'/appsettings.json';
     if (file_exists($src)) {
         copy($src, $trg);
     }
@@ -36,23 +37,31 @@ function copySettingsFiles($prefix)
 
 function clearSettingsFiles()
 {
-    @unlink(PROJECTROOT."/localsettings.json");
-    @unlink(PROJECTROOT."/appsettings.json");
+    @unlink(PROJECTROOT.'/localsettings.json');
+    @unlink(PROJECTROOT.'/appsettings.json');
 }
 
 function deleteState()
 {
-    $cmd = "rm -rf ".PROJECTROOT."/bootstrap/*";
+    $cmd = 'rm -rf '.PROJECTROOT.'/bootstrap/*';
     exec($cmd);
 }
 
 function copyState($name)
 {
-    $cmd = sprintf("cp -fa %s/tests/fixtures/%s/* %s/bootstrap/", PROJECTROOT, $name, PROJECTROOT);
+    @mkdir(PROJECTROOT.'/bootstrap/*', 0777, true);
+    $cmd = sprintf('cp -fa %s/tests/fixtures/%s/* %s/bootstrap/', PROJECTROOT, $name, PROJECTROOT);
     exec($cmd);
 
-    $cmd = sprintf("mv %s/bootstrap/*settings.json %s/", PROJECTROOT, PROJECTROOT);
+    $cmd = sprintf('mv %s/bootstrap/*settings.json %s/', PROJECTROOT, PROJECTROOT);
     exec($cmd);
+
+    if (file_exists(PROJECTROOT.'/bootstrap/wp-content')) {
+        $cmd = 'rm -rf '.PROJECTROOT.'/wp-content';
+        exec($cmd);
+        $cmd = sprintf('mv %s/bootstrap/wp-content %s/', PROJECTROOT, PROJECTROOT);
+        exec($cmd);
+    }
 }
 
 function setupWpInstallation($prefix)
@@ -66,10 +75,10 @@ function setupWpInstallation($prefix)
     exec($cmd);
 }
 
-function prompt($msg = "Press any key")
+function prompt($msg = 'Press any key')
 {
     echo $msg."\n";
-    ob_flush();
+    //ob_flush();
     $in = trim(fgets(STDIN));
 
     return $in;

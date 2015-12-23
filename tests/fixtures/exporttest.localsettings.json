@@ -11,5 +11,9 @@
 
     "url_test": "test.wpbootstraptest.local",
     "dbname_test": "wordpress-test",
-    "wppath_test": "/vagrant/www/wordpress-test"
+    "wppath_test": "/vagrant/www/wordpress-test",
+
+    "logfile": "log/wpbootstrap.log",
+    "loglevel": "DEBUG",
+    "consoleloglevel": "WARNING"
 }

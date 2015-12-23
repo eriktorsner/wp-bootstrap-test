@@ -1,0 +1,19 @@
+{
+    "title": "Local plugins and themes",
+    "plugins": {
+        "local": ["foobar"],
+        "localcopy": ["foobar2"],
+        "standard": [
+            "https://github.com/eriktorsner/wp-bootstrap-ui/archive/master.zip"
+        ]
+    },
+    "themes": {
+        "standard": [
+            "griffin:1.0.6", 
+            "https://downloads.wordpress.org/theme/wp-forge.5.5.3.1.zip"
+        ],
+        "local": ["footheme"],
+        "localcopy": ["footheme2"]
+    }
+}
+

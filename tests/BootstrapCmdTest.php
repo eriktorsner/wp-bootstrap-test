@@ -13,7 +13,8 @@ class BootstrapCmdTest extends \PHPUnit_Framework_TestCase
     {
         deleteState();
         copyState('importtest1');
-        $boostrap = Bootstrap::getInstance();
-        $boostrap->bootstrap();
+
+        $container = Container::getInstance();
+        $container->getBootstrap()->bootstrap();
     }
 }

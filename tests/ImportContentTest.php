@@ -9,13 +9,16 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
         deleteWpInstallation();
         deleteState();
         copyState('importtest1');
-        Bootstrap::destroy();
+        Container::destroy();
 
-        $b = Bootstrap::getInstance();
-        $this->assertEquals(1, count($b->getFiles(PROJECTROOT.'/bootstrap/posts/page')));
+        $container = Container::getInstance();
+
+        $b = $container->getBootstrap();
+        $this->assertEquals(1, count($container->getHelpers()->getFiles(PROJECTROOT.'/bootstrap/posts/page')));
         $b->install();
         $b->setup();
-        Import::getInstance()->import();
+        $importer = $container->getImport();
+        $importer->import();
 
         // is the page there?
         $pages = get_posts(array('name' => 'sample-page', 'post_type' => 'page'));
@@ -66,7 +69,7 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Uncategorize2', $item->title);
 
         $themes = wp_get_themes();
-        $this->assertEquals('1.0.6', $themes['griffin']->Version);
+        $this->assertEquals('1.0.7', $themes['griffin']->Version);
     }
 
     /**
@@ -78,7 +81,7 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
         $attachments = get_posts(array('name' => 'selection_287', 'post_type' => 'attachment'));
         $this->assertTrue(count($attachments) == 1);
         $attachment = $attachments[0];
-        $this->assertEquals('ImgTitle', $attachment->post_title);
+        $this->assertEquals('Selection_287', $attachment->post_title);
 
         $meta = get_post_meta($attachment->ID);
         $this->assertEquals('2014/11/Selection_287.png', $meta['_wp_attached_file'][0]);
@@ -100,7 +103,8 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
         $argv[] = 'update';
         $argv[] = 'plugins';
 
-        Bootstrap::getInstance()->update();
+        $bootstrap = Container::getInstance()->getBootstrap();
+        $bootstrap->update();
 
         wp_cache_delete('plugins', 'plugins');
         $plugins = get_plugins();
@@ -123,7 +127,8 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
         $argv[] = 'update';
         $argv[] = 'themes';
 
-        Bootstrap::getInstance()->update();
+        $bootstrap = Container::getInstance()->getBootstrap();
+        $bootstrap->update();
 
         wp_clean_themes_cache();
         $theme = wp_get_theme('griffin');
@@ -147,7 +152,8 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
         $argv[] = 'wpbootstrap';
         $argv[] = 'update';
 
-        Bootstrap::getInstance()->update();
+        $bootstrap = Container::getInstance()->getBootstrap();
+        $bootstrap->update();
 
         $argv = $orgArgv;
     }

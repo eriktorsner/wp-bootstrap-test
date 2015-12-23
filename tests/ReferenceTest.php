@@ -9,13 +9,15 @@ class ReferenceTest extends \PHPUnit_Framework_TestCase
         deleteWpInstallation();
         deleteState();
         copyState('referencetest');
-        Bootstrap::destroy();
+        Container::destroy();
 
-        $b = Bootstrap::getInstance();
-        $this->assertEquals(2, count($b->getFiles(PROJECTROOT.'/bootstrap/posts/page')));
+        $container = Container::getInstance();
+        $b = $container->getBootstrap();
+        $helpers = $container->getHelpers();
+        $this->assertEquals(2, count($helpers->getFiles(PROJECTROOT.'/bootstrap/posts/page')));
         $b->install();
         $b->setup();
-        Import::getInstance()->import();
+        $container->getImport()->import();
 
         // The front page has ID=22 in the bootstrap/posts/page file
         // but in a fresh WP-install, it should get ID = 3
@@ -35,7 +37,6 @@ class ReferenceTest extends \PHPUnit_Framework_TestCase
      * * @depends testImport
      *
      */
-
     public function testOptionPageReferences()
     {
 
@@ -71,19 +72,19 @@ class ReferenceTest extends \PHPUnit_Framework_TestCase
     {
         // Our own test settings
         $value = get_option('bootstrap_term_ref', 0);
-        $this->assertEquals(3, $value);
+        $this->assertEquals(4, $value);
 
         $value = get_option('bootstrap_term_ref2', 0);
         $this->assertTrue(is_object($value));
-        $this->assertEquals(2, $value->term_id);
+        $this->assertEquals(3, $value->term_id);
 
         $value = get_option('bootstrap_term_ref3', 0);
         $this->assertTrue(is_array($value));
-        $this->assertEquals(3, $value[2]);
+        $this->assertEquals(4, $value[2]);
 
         $value = get_option('bootstrap_term_ref4', 0);
         $this->assertTrue(is_object($value));
-        $this->assertEquals(2, $value->term_id);
-        $this->assertEquals(3, $value->other_term_id);
+        $this->assertEquals(3, $value->term_id);
+        $this->assertEquals(4, $value->other_term_id);
     }
 }

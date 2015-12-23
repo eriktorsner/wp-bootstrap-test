@@ -1,6 +1,6 @@
 {
     "title": "ExportTest",
-    "wpbootstrap": {
+    "content": {
         "menus": {
             "main": ["primary"]
         }
