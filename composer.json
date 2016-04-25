@@ -1,21 +1,15 @@
 {
 	"require": {
-		"monolog\/monolog": "^1.17"
+		"php": ">=5.3.9",
+		"symfony/yaml": "^2.8",
+		"vlucas/phpdotenv": "^2.2",
+		"pimple/pimple": "~3.0",
+		"10up/wp_mock": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {
-			"Wpbootstrap\\": "wp-bootstrap\\src"
-		}
-	},
-	"scripts": {
-		"wp-bootstrap": "vendor\/bin\/wpbootstrap wp-bootstrap",
-		"wp-install": "vendor\/bin\/wpbootstrap wp-install",
-		"wp-setup": "vendor\/bin\/wpbootstrap wp-setup",
-		"wp-update": "vendor\/bin\/wpbootstrap wp-update",
-		"wp-export": "vendor\/bin\/wpbootstrap wp-export",
-		"wp-import": "vendor\/bin\/wpbootstrap wp-import",
-		"wp-pullsettings": "vendor\/bin\/wpbootstrap wp-updateAppSettings",
-		"wp-init": "vendor\/bin\/wpbootstrap wp-init",
-		"wp-init-composer": "vendor\/bin\/wpbootstrap wp-initComposer"
+			"Wpbootstrap\\": "wp-bootstrap/src"
+		},
+		"files": ["wp-bootstrap/wpcli.php"]
 	}
 }

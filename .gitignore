@@ -1,16 +1,25 @@
 build/
+log/
 bootstrap/
 .vagrant/
 vendor/
+composer.lock
+.idea/
+
 www/default
 www/wordpress-default
 www/wordpress-test
 www/wp-cli
 
+appsettings.yml
 appsettings.json
 localsettings.json
+ftpsettings.json
+
 wp-bootstrap/
-wp-mirror*
+wp-mirror/
+wp-mirroragent/
 .env*
-.idea/
 *.yml
+
+duplicatorsites/
