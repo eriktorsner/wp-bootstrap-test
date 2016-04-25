@@ -18,7 +18,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         global $testHelpers;
         $testHelpers->removeSettings();
         $testHelpers->writeDotEnv(['foo' => 'bar']);
-        $app = getAppWithMockCli();
+        $app = $testHelpers->getAppWithMockCli();
 
         $expected = [
             'path' =>  BASEPATH .'/www/wordpress-test',
@@ -39,7 +39,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
             'path' => BASEPATH . '/www/wordpress-test',
         ]);
 
-        $app = getAppWithMockCli();
+        $app = $testHelpers->getAppWithMockCli();
         $this->assertEquals('[notset]', $app['environment']);
     }
 
@@ -52,7 +52,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
             'environment' => 'test',
         ]);
 
-        $app = getAppWithMockCli();
+        $app = $testHelpers->getAppWithMockCli();
         $this->assertEquals('test', $app['environment']);
     }
 
@@ -66,7 +66,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         ]);
         $testHelpers->writeDotEnv(['somekey' => 'somevalue']);
 
-        $app = getAppWithMockCli();
+        $app = $testHelpers->getAppWithMockCli();
         $this->assertEquals('somevalue', $_ENV['somekey']);
     }
 
@@ -81,7 +81,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         $testHelpers->writeDotEnv(['somekey' => 'somevalue', 'otherkey' => 'othervalue']);
         $testHelpers->writeDotEnv(['otherkey' => 'overloadedvalue'], '-test');
 
-        $app = getAppWithMockCli();
+        $app = $testHelpers->getAppWithMockCli();
         $this->assertEquals('somevalue', $_ENV['somekey']);
         $this->assertEquals('overloadedvalue', $_ENV['otherkey']);
     }
@@ -91,7 +91,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         global $testHelpers;
         $testHelpers->removeSettings();
 
-        $app = getAppWithMockCli();
+        $app = $testHelpers->getAppWithMockCli();
         $this->assertTrue(count($app['settings']) == 0);
     }
 
@@ -101,7 +101,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         $testHelpers->removeSettings();
         $testHelpers->writeAppsettings((object)['title' => 'foobar'], 'yaml');
 
-        $app = getAppWithMockCli();
+        $app = $testHelpers->getAppWithMockCli();
         $this->assertTrue(isset($app['settings']['title']));
         $this->assertEquals('foobar', $app['settings']['title']);
     }
@@ -112,7 +112,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         $testHelpers->removeSettings();
         $testHelpers->writeAppsettings((object)['title' => 'foobar'], 'json');
 
-        $app = getAppWithMockCli();
+        $app = $testHelpers->getAppWithMockCli();
         $this->assertTrue(isset($app['settings']['title']));
         $this->assertEquals('foobar', $app['settings']['title']);
     }

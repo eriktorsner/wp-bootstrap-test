@@ -2,23 +2,29 @@
 
 namespace Wpbootstrap;
 
+/**
+ * Class ImportContentTest
+ * @package Wpbootstrap
+ *
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class ImportContentTest extends \PHPUnit_Framework_TestCase
 {
     public function testImport()
     {
-        deleteWpInstallation();
-        deleteState();
-        copyState('importtest1');
-        Container::destroy();
+        global $testHelpers, $installHelper;
 
-        $container = Container::getInstance();
+        // in this test, appsettings doesn't contain any settings for wp-bootstrap
+        // wp-cfm is not installed and there are no posts or menus exported
+        $testHelpers->deleteWpInstallation();
+        $testHelpers->removeSettings();
+        $installHelper->createDefaultInstall('ImportTests');
 
-        $b = $container->getBootstrap();
-        $this->assertEquals(1, count($container->getHelpers()->getFiles(PROJECTROOT.'/bootstrap/posts/page')));
-        $b->install();
-        $b->setup();
-        $importer = $container->getImport();
-        $importer->import();
+        $testHelpers->copyState(__DIR__ . '/fixtures/importtest1');
+        exec('wp bootstrap setup');
+
+        $this->runImport();
 
         // is the page there?
         $pages = get_posts(array('name' => 'sample-page', 'post_type' => 'page'));
@@ -30,8 +36,7 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('ImportTests', get_bloginfo());
 
         // make sure we can ask WP for list of plugins
-        $wppath = $b->localSettings->wppath;
-        require_once $wppath.'/wp-admin/includes/plugin.php';
+        require_once(ABSPATH.'/wp-admin/includes/plugin.php');
 
         // is the wp-cfm plugin installed as expected?
         $plugins = get_plugins();
@@ -77,6 +82,8 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
      */
     public function testMediaImport()
     {
+        require_once(BASEPATH.'/www/wordpress-test/wp-load.php');
+
         // is the media file there?
         $attachments = get_posts(array('name' => 'selection_287', 'post_type' => 'attachment'));
         $this->assertTrue(count($attachments) == 1);
@@ -87,79 +94,20 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('2014/11/Selection_287.png', $meta['_wp_attached_file'][0]);
     }
 
-    /**
-     * @depends testImport
-     */
-    public function testUpdatePlugin()
-    {
-        global $argv;
-        $orgArgv = $argv;
-
-        wp_cache_delete('plugins', 'plugins');
-
-        // emulate command line
-        $argv = [];
-        $argv[] = 'wpbootstrap';
-        $argv[] = 'update';
-        $argv[] = 'plugins';
-
-        $bootstrap = Container::getInstance()->getBootstrap();
-        $bootstrap->update();
-
-        wp_cache_delete('plugins', 'plugins');
-        $plugins = get_plugins();
-        $this->assertEquals('1.4', $plugins['disable-comments/disable-comments.php']['Version']);
-
-        $argv = $orgArgv;
-    }
-
-    /**
-     * @depends testUpdatePlugin
-     */
-    public function testUpdateTheme()
-    {
-        global $argv;
-        $orgArgv = $argv;
-
-        // emulate command line
-        $argv = [];
-        $argv[] = 'wpbootstrap';
-        $argv[] = 'update';
-        $argv[] = 'themes';
-
-        $bootstrap = Container::getInstance()->getBootstrap();
-        $bootstrap->update();
-
-        wp_clean_themes_cache();
-        $theme = wp_get_theme('griffin');
-        $this->assertEquals('1.0.9', $theme->Version);
-
-        $argv = $orgArgv;
-    }
-
-    /**
-     * @depends testUpdateTheme
-     */
-    public function testUpdateAll()
-    {
-        global $argv;
-        $orgArgv = $argv;
-
-        wp_cache_delete('plugins', 'plugins');
-
-        // emulate command line
-        $argv = [];
-        $argv[] = 'wpbootstrap';
-        $argv[] = 'update';
-
-        $bootstrap = Container::getInstance()->getBootstrap();
-        $bootstrap->update();
-
-        $argv = $orgArgv;
-    }
-
     private function parentcmp($a, $b)
     {
         return $a->parent > $b->parent;
+    }
+
+    private function runImport()
+    {
+        global $testHelpers;
+
+        $app = $testHelpers->getAppWithMockCli();
+        Bootstrap::setApplication($app);
+
+        require_once(BASEPATH.'/www/wordpress-test/wp-load.php');
+        $import = $app['import'];
+        $import->run([], []);
     }
 }

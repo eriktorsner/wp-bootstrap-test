@@ -1,0 +1,38 @@
+{
+	"created": "2016-01-01 13:47:28",
+	"boostrapVersion": "0.3.0",
+	"appSettings": {
+		"title": "Casestudy 1",
+		"themes": {
+			"standard": ["vantage"],
+			"local": ["vantage-child"],
+			"active": "vantage-child"
+		},
+		"plugins": {
+			"standard": [
+				"ml-slider",
+				"siteorigin-panels",
+				"so-widgets-bundle",
+				"wp-cfm"
+			]
+		},
+		"content": {
+			"posts": {
+				"page": ["welcome"],
+				"ml-slider": ["new-slider"],
+				"attachment": ["camera-1080"]
+			},
+			"taxonomies": {
+				"ml-slider": {
+					"type": "postid",
+					"termDescriptor": "*"
+				}
+			}
+		},
+		"references": {
+			"posts": {
+				"postmeta": ["vantage_metaslider_slider"]
+			}
+		}
+	}
+}

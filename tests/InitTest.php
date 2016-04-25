@@ -16,17 +16,21 @@ class InitTest extends \PHPUnit_Framework_TestCase
         // ensure no previous files exists
         $local = './localsettings.json';
         $app = './appsettings.json';
+        $wpcli = './wp-cli.yml';
         @unlink($local);
         @unlink($app);
+        @unlink($wpcli);
 
         $this->assertFalse(file_exists($local));
         $this->assertFalse(file_exists($app));
+        $this->assertFalse(file_exists($wpcli));
 
         $container = Container::getInstance();
         $container->getInitbootstrap()->init();
 
         $this->assertTrue(file_exists($local));
         $this->assertTrue(file_exists($app));
+        $this->assertTrue(file_exists($wpcli));
         $this->assertJson(file_get_contents($local));
         $this->assertJson(file_get_contents($app));
 
@@ -48,6 +52,7 @@ class InitTest extends \PHPUnit_Framework_TestCase
 
         @unlink($local);
         @unlink($app);
+        @unlink($wpcli);
     }
 
     public function testComposerInit()

@@ -2,7 +2,14 @@
 
 namespace Wpbootstrap;
 
-class VersionsTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class VersionsTest
+ * @package Wpbootstrap
+ *
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
+ class VersionsTest extends \PHPUnit_Framework_TestCase
 {
     private $tPlugins = array(
         'google-sitemap-generator/sitemap.php' => array('4.0.3','4.0.8'),

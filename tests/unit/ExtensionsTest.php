@@ -2,22 +2,24 @@
 
 namespace Wpbootstrap;
 
-class ExtensionsTEst extends \PHPUnit_Framework_TestCase
+class ExtensionsTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
-        deleteState();
-        copyState('extensions');
-        Container::destroy();
+        global $testHelpers;
+        $testHelpers->deleteState();
+        $testHelpers->copyState('extensions');
 
-        require_once(__DIR__ . '/fixtures/extensions/extension.php');
+        require_once(__DIR__ . '/../fixtures/extensions/extension.php');
     }
 
     public function testLoad()
     {
-        $container = Container::getInstance();
-        $container->getExtensions()->init();
-        print_r($container->getExtensions());
-    }
+        global $testHelpers;
+        $app = $testHelpers->getAppWithMockCli();
+        Bootstrap::setApplication($app);
 
+        $extensions = $app['extensions'];
+        $extensions->init();
+    }
 }

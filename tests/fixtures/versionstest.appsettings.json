@@ -6,13 +6,26 @@
         "standard": [
             "wp-pagenavi:2.82",
             "wordpress-importer:0.5.2",
-            "google-sitemap-generator:4.0.3"
+            {
+                "slug": "google-sitemap-generator",
+                "requires": {
+                    "plugins": ["wp-pagenavi"]
+                },
+                "version": "4.0.3"
+            },
+            {
+                "slug": "wp-cfm",
+                "requires": {
+                    "themes": ["radix"]
+                }
+            }
         ]
     },
     "themes": {
         "standard": [
             "swallow:1.5",
             "radix:1.0.4"
-        ]
+        ],
+        "active": "swallow"
     }
 }

@@ -4,117 +4,30 @@ namespace Wpbootstrap;
 
 class FunctionsTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFieldSearchReplace()
+    public function setUp()
     {
-        $container = Container::getInstance();
-        $h = $container->getHelpers();
+        \WP_Mock::setUp();
 
-        // scalar
-        $fld = 'fuuSEARCHbar';
-        $h->fieldSearchReplace($fld, 'SEARCH', 'REPLACE');
-        $this->assertEquals('fuuREPLACEbar', $fld);
-
-        // Arrays
-        $fld = array('fuu' => 'fuuSEARCHbar', 'foo' => 'fooSEARCHbar');
-        $h->fieldSearchReplace($fld, 'SEARCH', 'REPLACE');
-        $this->assertEquals('fuuREPLACEbar', $fld['fuu']);
-        $this->assertEquals('fooREPLACEbar', $fld['foo']);
-
-        // Object with array
-        $fld = new \stdClass();
-        $fld->fuu = 'fuuSEARCHbar';
-        $fld->foo = array('foo' => 'fooSEARCHbar');
-        $h->fieldSearchReplace($fld, 'SEARCH', 'REPLACE');
-        $this->assertEquals('fuuREPLACEbar', $fld->fuu);
-        $this->assertEquals('fooREPLACEbar', $fld->foo['foo']);
-    }
-
-    public function testFieldSearchReplaceB64()
-    {
-        $container = Container::getInstance();
-        $h = $container->getHelpers();
-
-        // scalar
-        $fld = base64_encode('fuuSEARCHbar');
-        $h->fieldSearchReplace($fld, 'SEARCH', 'REPLACE');
-        $this->assertEquals(base64_encode('fuuREPLACEbar'), $fld);
-
-        // Arrays
-        $fld = array('fuu' => base64_encode('fuuSEARCHbar'), 'foo' => base64_encode('fooSEARCHbar'));
-        $h->fieldSearchReplace($fld, 'SEARCH', 'REPLACE');
-        $this->assertEquals(base64_encode('fuuREPLACEbar'), $fld['fuu']);
-        $this->assertEquals(base64_encode('fooREPLACEbar'), $fld['foo']);
-
-        // Object with array
-        $fld = new \stdClass();
-        $fld->fuu = base64_encode('fuuSEARCHbar');
-        $fld->foo = array('foo' => base64_encode('fooSEARCHbar'));
-        $h->fieldSearchReplace($fld, 'SEARCH', 'REPLACE');
-        $this->assertEquals(base64_encode('fuuREPLACEbar'), $fld->fuu);
-        $this->assertEquals(base64_encode('fooREPLACEbar'), $fld->foo['foo']);
-    }
-
-    public function testFieldSearchReplaceSer()
-    {
-        $container = Container::getInstance();
-        $h = $container->getHelpers();
-
-        // scalar
-        $fld = serialize('fuuSEARCHbar');
-        $h->fieldSearchReplace($fld, 'SEARCH', 'REPLACE');
-        $this->assertEquals(serialize('fuuREPLACEbar'), $fld);
-
-        // Arrays
-        $fld = array('fuu' => serialize('fuuSEARCHbar'), 'foo' => serialize('fooSEARCHbar'));
-        $h->fieldSearchReplace($fld, 'SEARCH', 'REPLACE');
-        $this->assertEquals(serialize('fuuREPLACEbar'), $fld['fuu']);
-        $this->assertEquals(serialize('fooREPLACEbar'), $fld['foo']);
-
-        // Object with array
-        $fld = new \stdClass();
-        $fld->fuu = serialize('fuuSEARCHbar');
-        $fld->foo = array('foo' => serialize('fooSEARCHbar'));
-        $h->fieldSearchReplace($fld, 'SEARCH', 'REPLACE');
-        $this->assertEquals(serialize('fuuREPLACEbar'), $fld->fuu);
-        $this->assertEquals(serialize('fooREPLACEbar'), $fld->foo['foo']);
-    }
-
-    public function testIsUrl()
-    {
-        $container = Container::getInstance();
-        $h = $container->getHelpers();
-
-        $this->assertEquals(true, $h->isUrl('http://www.foobar.com/'));
-        $this->assertEquals(true, $h->isUrl('https://www.foobar.com/'));
-        $this->assertEquals(true, $h->isUrl('unknown://www.foobar.com/'));
-
-        $this->assertEquals(false, $h->isUrl('www.foobar.com/'));
-        $this->assertEquals(false, $h->isUrl('www.foobar.com/foo/bar.html'));
-    }
-
-    public function _testExtractMedia()
-    {
-        $container = Container::getInstance();
-        $e = $container->getExportMedia();
-        //$b = new Boostrap();
-
-        $string = sprintf(
-            'some string <img src="%s/2015/01/foobar.png> sdfom other  <img src="%s/2015/01/ither.png">',
-            $uploadDir['baseurl'],
-            $uploadDir['baseurl']
+        \WP_Mock::wpFunction('wp_upload_dir', [
+            'return' => ['baseurl' => 'http://www.example.com']
+            ]
         );
-        $ret = $e->getReferencedMedia($string);
-        print_r($ret);
 
-        $obj = array($string, 'foobar', $string);
-        $ret = $e->getReferencedMedia($obj);
-        print_r($ret);
     }
+
+    public function tearDown()
+    {
+        \WP_Mock::tearDown();
+    }
+
+
 
     public function testIsImageUrl()
     {
-        $container = Container::getInstance();
-        $e = $container->getExtractMedia();
+        global $testHelpers;
+        $app = $testHelpers->getAppWithMockCli();
+        Bootstrap::setApplication($app);
+        $e = $app['extractmedia'];
 
         $strings = array(
             'http://foo.com/a.b.d-1x1-150x150.png',
@@ -145,8 +58,10 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
 
     public function testRemoveLastSizeIndicator()
     {
-        $container = Container::getInstance();
-        $e = $container->getExtractMedia();
+        global $testHelpers;
+        $app = $testHelpers->getAppWithMockCli();
+        Bootstrap::setApplication($app);
+        $e = $app['extractmedia'];
 
         $testStrings = array(
             'http://foo.com/a.b.d-1x1-150x150.png',
