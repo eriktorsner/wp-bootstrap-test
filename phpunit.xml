@@ -2,13 +2,13 @@
     bootstrap="tests/bootstrap.php"
     backupGlobals="false"
     colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
     >
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>./tests/</directory>
+        <testsuite name="unit">
+            <directory>./tests/unit</directory>
+        </testsuite>
+        <testsuite name="functional">
+            <directory>./tests/functional</directory>
         </testsuite>
     </testsuites>
 
@@ -23,6 +23,10 @@
     <filter>
         <whitelist>
             <directory>wp-bootstrap/src</directory>
+            <exclude>
+                <file>wp-bootstrap/src/Providers/CliWrapper.php</file>
+                <file>wp-bootstrap/src/Providers/CliUtilsWrapper.php</file>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>
