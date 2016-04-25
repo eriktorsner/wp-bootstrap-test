@@ -10,3 +10,7 @@ www/wp-cli
 appsettings.json
 localsettings.json
 wp-bootstrap/
+wp-mirror*
+.env*
+.idea/
+*.yml
