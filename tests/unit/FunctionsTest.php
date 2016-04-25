@@ -79,6 +79,19 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(serialize('fooREPLACEbar'), $fld->foo['foo']);
     }
 
+    public function testIsUrl()
+    {
+        $container = Container::getInstance();
+        $h = $container->getHelpers();
+
+        $this->assertEquals(true, $h->isUrl('http://www.foobar.com/'));
+        $this->assertEquals(true, $h->isUrl('https://www.foobar.com/'));
+        $this->assertEquals(true, $h->isUrl('unknown://www.foobar.com/'));
+
+        $this->assertEquals(false, $h->isUrl('www.foobar.com/'));
+        $this->assertEquals(false, $h->isUrl('www.foobar.com/foo/bar.html'));
+    }
+
     public function _testExtractMedia()
     {
         $container = Container::getInstance();

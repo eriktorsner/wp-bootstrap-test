@@ -42,7 +42,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $obj = unserialize(file_get_contents(PROJECTROOT.'/bootstrap/posts/page/sample-page'));
         $this->assertTrue($obj->post_name == 'sample-page');
         $this->assertTrue($obj->post_type == 'page');
-        $neutral = Bootstrap::NETURALURL;
+        $neutral = Bootstrap::NEUTRALURL;
         $this->assertTrue(substr($obj->guid, 0, strlen($neutral)) == $neutral);
         $this->assertTrue(isset($obj->post_meta));
     }
@@ -75,7 +75,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $obj = unserialize(file_get_contents(PROJECTROOT.'/bootstrap/menus/main/3'));
         $this->assertTrue($obj->post_name == 3);
         $this->assertTrue($obj->post_type == 'nav_menu_item');
-        $neutral = Bootstrap::NETURALURL;
+        $neutral = Bootstrap::NEUTRALURL;
         $this->assertTrue(substr($obj->guid, 0, strlen($neutral)) == $neutral);
         $this->assertTrue(isset($obj->post_meta));
 
@@ -107,14 +107,18 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap'));
         $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/media'));
-        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/media/5'));
-        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/media/5/meta'));
-        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/media/5/sampleimage.png'));
 
-        $obj = unserialize(file_get_contents(PROJECTROOT.'/bootstrap/media/5/meta'));
-        $this->assertTrue($obj->post_name == '5');
+        // since WP 4.5 or wp-cli 0.23, the default name for an imported
+        // image will be image name minus extension...
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/media/sampleimage'));
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/media/sampleimage/meta'));
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/media/sampleimage/sampleimage.png'));
+
+        $obj = unserialize(file_get_contents(PROJECTROOT.'/bootstrap/media/sampleimage/meta'));
+        $this->assertTrue($obj->post_name == 'sampleimage');
         $this->assertTrue($obj->post_type == 'attachment');
         $this->assertTrue(isset($obj->post_meta));
+
     }
 
     public function testExportTaxonomy()
@@ -182,5 +186,24 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $label = '.label';
         $this->assertTrue(count($obj) > 0);
         $this->assertTrue($obj->$label == 'wpbootstrap');
+    }
+
+    public function testExportSidebar()
+    {
+        $cmd = "wp --allow-root --path=www/wordpress-test widget add calendar sidebar-1 1 --title='Foobar'";
+        exec($cmd);
+
+        $container = Container::getInstance();
+        $container->getHelpers()->recursiveRemoveDirectory(PROJECTROOT.'/bootstrap');
+        copySettingsFiles('exporttest7');
+
+        $container::destroy();
+        $container = Container::getInstance();
+        wp_cache_delete('alloptions', 'options');
+        $container->getExport()->export();
+
+        $this->assertTrue(file_exists(PROJECTROOT.'/bootstrap/sidebars/sidebar-1/calendar-1'));
+        $obj = unserialize(file_get_contents(PROJECTROOT.'/bootstrap/sidebars/sidebar-1/calendar-1'));
+        $this->assertEquals('Foobar', $obj['title']);
     }
 }

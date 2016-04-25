@@ -6,12 +6,12 @@ class VersionsTest extends \PHPUnit_Framework_TestCase
 {
     private $tPlugins = array(
         'google-sitemap-generator/sitemap.php' => array('4.0.3','4.0.8'),
-        'wp-pagenavi/wp-pagenavi.php' => array('2.82','2.89.1'),
+        'wp-pagenavi/wp-pagenavi.php' => array('2.82','2.90'),
         'wordpress-importer/wordpress-importer.php' => array('0.5.2','0.6.1'),
     );
 
     private $tThemes = array(
-        'swallow' => array('1.5','1.7.1'),
+        'swallow' => array('1.5','1.8'),
         'radix' => array('1.0.4','1.1.1'),
     );
 
@@ -20,19 +20,26 @@ class VersionsTest extends \PHPUnit_Framework_TestCase
         deleteWpInstallation();
         copySettingsFiles('versionstest');
         Container::destroy();
+    }
 
+    public function testDoWPInstall()
+    {
         $container = Container::getInstance();
         $b = $container->getBootstrap();
         $b->install();
         $b->setup();
     }
 
+    /**
+     * @depends testDoWPInstall
+     */
     public function testCorrectWPInstall()
     {
         global $wp_version;
 
         Container::destroy();
         $container = Container::getInstance();
+
         $container->getUtils()->includeWordPress();
         $ls = $container->getLocalSettings();
         require $ls->wppath.'/wp-includes/version.php';

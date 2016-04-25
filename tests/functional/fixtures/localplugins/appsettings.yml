@@ -1,0 +1,33 @@
+title: ReferenceTest
+keepDefaultContent: true
+plugins:
+    standard:
+      - wp-cfm
+      - disable-comments:1.3
+themes:
+    active: griffin
+    standard:
+      - griffin:1.0.6
+
+content:
+    posts:
+      page: [sample-page]
+
+    menus:
+      main: [primary]
+
+references:
+    posts:
+      options:
+        - bootstrap_post_ref
+        - { bootstrap_post_ref2: '->page_id' }
+        - { bootstrap_post_ref3: '[2]' }
+        - { bootstrap_post_ref4: ['->page_id', '->other_page_id'] }
+
+    terms:
+      options:
+        - bootstrap_term_ref
+        - { bootstrap_term_ref2: '->term_id' }
+        - { bootstrap_term_ref3: '[2]' }
+        - { bootstrap_term_ref4: ['->term_id', '->other_term_id'] }
+

@@ -108,7 +108,7 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
 
         wp_cache_delete('plugins', 'plugins');
         $plugins = get_plugins();
-        $this->assertEquals('1.3.2', $plugins['disable-comments/disable-comments.php']['Version']);
+        $this->assertEquals('1.4', $plugins['disable-comments/disable-comments.php']['Version']);
 
         $argv = $orgArgv;
     }
