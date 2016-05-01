@@ -3,7 +3,7 @@
 global $mockTerms;
 
 $mockTerms = [
-    'catTerm1' => (object)[
+    'catTerm1' => [
         'term_id' => 21,
         'name' => 'catTerm1',
         'slug' => 'catTerm1',
@@ -15,7 +15,7 @@ $mockTerms = [
         'count' => 10,
         'filter' => 'raw'
     ],
-    'catTerm2' => (object)[
+    'catTerm2' => [
         'term_id' => 22,
         'name' => 'catTerm2',
         'slug' => 'catTerm2',

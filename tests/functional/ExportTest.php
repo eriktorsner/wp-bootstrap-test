@@ -1,8 +1,7 @@
 <?php
 
 namespace Wpbootstrap;
-
-
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class ExportTest
@@ -35,6 +34,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     public function testExportAPage()
     {
         global $testHelpers;
+        $yaml = new Yaml();
 
         $testHelpers->writeAppsettings(
             [
@@ -55,17 +55,18 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/posts/page'));
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/posts/page/sample-page'));
 
-        $obj = unserialize(file_get_contents(BASEPATH.'/bootstrap/posts/page/sample-page'));
-        $this->assertTrue($obj->post_name == 'sample-page');
-        $this->assertTrue($obj->post_type == 'page');
+        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/posts/page/sample-page'));
+        $this->assertTrue($obj['post_name'] == 'sample-page');
+        $this->assertTrue($obj['post_type'] == 'page');
         $neutral = Bootstrap::NEUTRALURL;
-        $this->assertTrue(substr($obj->guid, 0, strlen($neutral)) == $neutral);
-        $this->assertTrue(isset($obj->post_meta));
+        $this->assertTrue(substr($obj['guid'], 0, strlen($neutral)) == $neutral);
+        $this->assertTrue(isset($obj['post_meta']));
     }
 
     public function testExportAMenu()
     {
         global $testHelpers;
+        $yaml = new Yaml();
 
         exec('wp --path=www/wordpress-test menu create main');
         exec('wp --path=www/wordpress-test menu location assign main primary');
@@ -79,9 +80,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
                     'posts' => [
                         'page' => ['sample-page']
                     ],
-                    'menus' => [
-                        "main" => ["primary"]
-                    ]
+                    'menus' => ["main"]
                 ]
             ],
             'yaml'
@@ -94,12 +93,12 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/menus/main'));
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/menus/main/3'));
 
-        $obj = unserialize(file_get_contents(BASEPATH.'/bootstrap/menus/main/3'));
-        $this->assertTrue($obj->post_name == 3);
-        $this->assertTrue($obj->post_type == 'nav_menu_item');
+        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/menus/main/3'));
+        $this->assertTrue($obj['post_name'] == 3);
+        $this->assertTrue($obj['post_type'] == 'nav_menu_item');
         $neutral = Bootstrap::NEUTRALURL;
-        $this->assertTrue(substr($obj->guid, 0, strlen($neutral)) == $neutral);
-        $this->assertTrue(isset($obj->post_meta));
+        $this->assertTrue(substr($obj['guid'], 0, strlen($neutral)) == $neutral);
+        $this->assertTrue(isset($obj['post_meta']));
 
         // as a side effect, the sample-page should also have been exported
         // even if it's not included in the appsettings file.
@@ -118,6 +117,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     public function testExportAnImage()
     {
+        $yaml = new Yaml();
         $src = __DIR__ . '/fixtures/sampleimage.png';
         exec("wp --path=www/wordpress-test media import $src --post_id=2 --featured_image");
 
@@ -132,16 +132,17 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/media/sampleimage/meta'));
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/media/sampleimage/sampleimage.png'));
 
-        $obj = unserialize(file_get_contents(BASEPATH.'/bootstrap/media/sampleimage/meta'));
-        $this->assertTrue($obj->post_name == 'sampleimage');
-        $this->assertTrue($obj->post_type == 'attachment');
-        $this->assertTrue(isset($obj->post_meta));
+        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/media/sampleimage/meta'));
+        $this->assertTrue($obj['post_name'] == 'sampleimage');
+        $this->assertTrue($obj['post_type'] == 'attachment');
+        $this->assertTrue(isset($obj['post_meta']));
 
     }
 
     public function testExportTaxonomy()
     {
         global $testHelpers;
+        $yaml = new Yaml();
 
         $testHelpers->writeAppsettings(
             [
@@ -161,15 +162,16 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category'));
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category/uncategorized'));
 
-        $obj = unserialize(file_get_contents(BASEPATH.'/bootstrap/taxonomies/category/uncategorized'));
-        $this->assertTrue($obj->name == 'Uncategorized');
-        $this->assertTrue($obj->slug == 'uncategorized');
-        $this->assertTrue($obj->taxonomy == 'category');
+        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/taxonomies/category/uncategorized'));
+        $this->assertTrue($obj['name'] == 'Uncategorized');
+        $this->assertTrue($obj['slug'] == 'uncategorized');
+        $this->assertTrue($obj['taxonomy'] == 'category');
     }
 
     public function testExportTaxonomy2()
     {
         global $testHelpers;
+        $yaml = new Yaml();
 
         exec("wp --path=www/wordpress-test term create category Fruit --description='Fruits'");
         exec("wp --path=www/wordpress-test term create category Apple --parent=3 --description='Specific fruits'");
@@ -193,11 +195,11 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category/fruit'));
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category/apple'));
 
-        $obj = unserialize(file_get_contents(BASEPATH.'/bootstrap/taxonomies/category/apple'));
-        $this->assertTrue($obj->name == 'Apple');
-        $this->assertTrue($obj->slug == 'apple');
-        $this->assertTrue($obj->description == 'Specific fruits');
-        $this->assertTrue($obj->taxonomy == 'category');
+        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/taxonomies/category/apple'));
+        $this->assertTrue($obj['name'] == 'Apple');
+        $this->assertTrue($obj['slug'] == 'apple');
+        $this->assertTrue($obj['description'] == 'Specific fruits');
+        $this->assertTrue($obj['taxonomy'] == 'category');
     }
 
     public function testExportSettings()
@@ -211,9 +213,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
                     'standard' => ['wp-cfm']
                 ],
                 'content' => [
-                    'menus' => [
-                        'main' => ["primary"]
-                    ]
+                    'menus' => ['main']
                 ]
             ],
             'yaml'
@@ -235,6 +235,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     public function testExportSidebar()
     {
         global $testHelpers;
+        $yaml = new Yaml();
 
         exec("wp --path=www/wordpress-test widget add calendar sidebar-1 1 --title='Foobar'");
 
@@ -251,7 +252,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $this->runExport();
 
         $this->assertTrue(file_exists(BASEPATH.'/bootstrap/sidebars/sidebar-1/calendar-1'));
-        $obj = unserialize(file_get_contents(BASEPATH.'/bootstrap/sidebars/sidebar-1/calendar-1'));
+        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/sidebars/sidebar-1/calendar-1'));
         $this->assertEquals('Foobar', $obj['title']);
     }
 

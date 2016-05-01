@@ -25,7 +25,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
         $i = $app['import'];
         $testHelpers->makePublic($i, 'posts');
 
-        $i->posts = [(object)['id' => 10, 'post' => (object)['ID' => 12]]];
+        $i->posts = [(object)['id' => 10, 'post' => ['ID' => 12]]];
 
         /*******************************************************
          * simple
@@ -114,7 +114,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
 
         $i->posts = [
             (object)['id' => 10,
-            'post' => (object)[
+            'post' => [
                 'ID' => 12,
                 'post_meta' => ['foobar' => [12, 'x:12']]
             ]]

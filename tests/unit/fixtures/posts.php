@@ -3,7 +3,7 @@
 global $mockPosts;
 
 $mockPosts = [
-    'testpost1' => (object)[
+    'testpost1' => [
         'ID'    => 10,
         'post_title' => 'testpost1_title',
         'post_name' => 'testpost1',
@@ -12,7 +12,7 @@ $mockPosts = [
         'post_status' => 'publish',
         'post_mime_type' => 'text',
         'post_content' => 'testpost1 content',
-        'post_exerp' => 'testpost1',
+        'post_excerpt' => 'testpost1',
         'ping_status' => 1,
         'pinged' => 1,
         'comment_status' => 'comment_status',
@@ -26,7 +26,7 @@ $mockPosts = [
             'serializedMeta' => ['s:6:"foobar";'],
         ],
     ],
-    'testpost2' => (object)[
+    'testpost2' => [
         'ID'    => 12,
         'post_title' => 'testpost2_title',
         'post_name' => 'testpost2',
@@ -35,7 +35,7 @@ $mockPosts = [
         'post_status' => 'publish',
         'post_mime_type' => 'text',
         'post_content' => 'testpost2 content',
-        'post_exerp' => 'testpost2',
+        'post_excerpt' => 'testpost2',
         'ping_status' => 1,
         'pinged' => 1,
         'comment_status' => 'comment_status',
@@ -50,7 +50,7 @@ $mockPosts = [
             '_thumbnail_id' => [41],
         ],
     ],
-    'testimage1' => (object)[
+    'testimage1' => [
         'ID'    => 41,
         'post_title' => 'testimage1_title',
         'post_name' => 'testimage1',
@@ -63,7 +63,7 @@ $mockPosts = [
             '_wp_attached_file' => ["/some/path/testimage1.jpg"]
         ],
     ],
-    'testimage2' => (object)[
+    'testimage2' => [
         'ID'    => 42,
         'post_title' => 'testimage2_title',
         'post_name' => 'testimage2',

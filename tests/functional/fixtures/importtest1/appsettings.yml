@@ -14,7 +14,7 @@ content:
         page: [sample-page]
 
     menus:
-        main: [primary]
+      - main
 
     taxonomies:
         category: '*'

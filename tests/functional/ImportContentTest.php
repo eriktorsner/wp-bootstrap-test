@@ -19,6 +19,7 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
         // wp-cfm is not installed and there are no posts or menus exported
         $testHelpers->deleteWpInstallation();
         $testHelpers->removeSettings();
+        $testHelpers->deleteState();
         $installHelper->createDefaultInstall('ImportTests');
 
         $testHelpers->copyState(__DIR__ . '/fixtures/importtest1');

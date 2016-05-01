@@ -2,6 +2,8 @@
 
 namespace Wpbootstrap;
 
+use Symfony\Component\Yaml\Dumper;
+
 class ImportTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -165,7 +167,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $import->taxonomies = [
             'category' => (object)[
                 'terms' => [
-                    (object)['id' => 20, 'term' => (object)['term_id' => 98]],
+                    (object)['id' => 20, 'term' => ['term_id' => 98]],
                 ]
             ]
         ];
@@ -173,7 +175,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $import->findTargetObjectId(999, 'term'));
 
         $import->posts = [
-            (object)['id' => 10, 'post' => (object)['ID' => 12]],
+            (object)['id' => 10, 'post' => ['ID' => 12]],
         ];
         $this->assertEquals(10, $import->findTargetObjectId(12, 'post'));
         $this->assertEquals(0, $import->findTargetObjectId(999, 'post'));
@@ -182,28 +184,31 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     private function savePost($type, $obj)
     {
-        $fName = $obj->post_name;
-        $subtype = $obj->post_type;
+        $fName = $obj['post_name'];
+        $subtype = $obj['post_type'];
         $folder = BASEPATH . "/bootstrap/$type/$subtype";
         @mkdir($folder, 0777, true);
-        file_put_contents("$folder/$fName", serialize($obj));
+        $dumper = new Dumper();
+        file_put_contents("$folder/$fName", $dumper->dump($obj, 4));
     }
 
     private function saveTerm($obj)
     {
-        $fName = $obj->slug;
-        $taxName = $obj->taxonomy;
+        $fName = $obj['slug'];
+        $taxName = $obj['taxonomy'];
         $folder = BASEPATH . "/bootstrap/taxonomies/$taxName";
         @mkdir($folder, 0777, true);
-        file_put_contents("$folder/$fName", serialize($obj));
+        $dumper = new Dumper();
+        file_put_contents("$folder/$fName", $dumper->dump($obj, 4));
     }
 
     private function saveMedia($obj)
     {
-        $folder = BASEPATH . "/bootstrap/media/{$obj->post_name}";
+        $folder = BASEPATH . "/bootstrap/media/{$obj['post_name']}";
         @mkdir($folder, 0777, true);
-        file_put_contents("$folder/meta", serialize($obj));
-        file_put_contents("$folder/{$obj->post_name}", "nothinghere");
+        $dumper = new Dumper();
+        file_put_contents("$folder/meta", $dumper->dump($obj, 4));
+        file_put_contents("$folder/{$obj['post_name']}", "nothinghere");
     }
 
     private function saveWpCfmSettings($obj)
