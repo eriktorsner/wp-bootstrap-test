@@ -14,11 +14,15 @@ www/wp-cli
 appsettings.yml
 appsettings.json
 localsettings.json
+remotesettings.json
 ftpsettings.json
 
 wp-bootstrap/
+wp-bootstrap-ui/
 wp-mirror/
 wp-mirroragent/
+wpmirror/
+wp-deployhelper/
 .env*
 *.yml
 

@@ -1,7 +1,7 @@
 <?php
 
 define('PROJECTROOT', dirname(dirname(__FILE__)));
-define('BASEPATH', PROJECTROOT);
+define('WPBOOT_BASEPATH', PROJECTROOT);
 define('TESTMODE', true);
 
 require_once __DIR__.'/../vendor/autoload.php';

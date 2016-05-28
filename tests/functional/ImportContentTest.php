@@ -83,7 +83,7 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
      */
     public function testMediaImport()
     {
-        require_once(BASEPATH.'/www/wordpress-test/wp-load.php');
+        require_once(WPBOOT_BASEPATH.'/www/wordpress-test/wp-load.php');
 
         // is the media file there?
         $attachments = get_posts(array('name' => 'selection_287', 'post_type' => 'attachment'));
@@ -107,7 +107,7 @@ class ImportContentTest extends \PHPUnit_Framework_TestCase
         $app = $testHelpers->getAppWithMockCli();
         Bootstrap::setApplication($app);
 
-        require_once(BASEPATH.'/www/wordpress-test/wp-load.php');
+        require_once(WPBOOT_BASEPATH.'/www/wordpress-test/wp-load.php');
         $import = $app['import'];
         $import->run([], []);
     }

@@ -47,7 +47,7 @@ class ReferenceTest extends \PHPUnit_Framework_TestCase
      */
     public function testOptionPageReferences()
     {
-        require_once(BASEPATH.'/www/wordpress-test/wp-load.php');
+        require_once(WPBOOT_BASEPATH.'/www/wordpress-test/wp-load.php');
 
         // Also, the "page_on_front" setting in the import data is set to point to page 22
         // But since the actual page now has ID=3, we want to check that it's also correct.
@@ -79,7 +79,7 @@ class ReferenceTest extends \PHPUnit_Framework_TestCase
 
     public function testOptionTermReference()
     {
-        require_once(BASEPATH.'/www/wordpress-test/wp-load.php');
+        require_once(WPBOOT_BASEPATH.'/www/wordpress-test/wp-load.php');
 
         // Our own test settings
         $value = get_option('bootstrap_term_ref', 0);
@@ -106,7 +106,7 @@ class ReferenceTest extends \PHPUnit_Framework_TestCase
         $app = $testHelpers->getAppWithMockCli();
         Bootstrap::setApplication($app);
 
-        require_once(BASEPATH.'/www/wordpress-test/wp-load.php');
+        require_once(WPBOOT_BASEPATH.'/www/wordpress-test/wp-load.php');
         $import = $app['import'];
         $import->run([], []);
     }

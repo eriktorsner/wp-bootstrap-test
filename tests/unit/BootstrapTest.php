@@ -64,7 +64,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
 
         $app = $testHelpers->getAppWithMockCli();
         $helpers = $app['helpers'];
-        $helpers->recursiveRemoveDirectory(BASEPATH . '/bootstrap');
+        $helpers->recursiveRemoveDirectory(WPBOOT_BASEPATH . '/bootstrap');
 
         $bootstrap = new Bootstrap();
 

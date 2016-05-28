@@ -8,7 +8,7 @@ class ExtensionsTest extends \PHPUnit_Framework_TestCase
     {
         global $testHelpers;
         $testHelpers->deleteState();
-        $testHelpers->copyState('extensions');
+        $testHelpers->copyState(__DIR__ . '/fixtures/extensions');
 
         require_once(__DIR__ . '/fixtures/extensions/extension.php');
     }

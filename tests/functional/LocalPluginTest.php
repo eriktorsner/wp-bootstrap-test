@@ -15,7 +15,7 @@ class LocalPluginTest extends \PHPUnit_Framework_TestCase
     {
         global $testHelpers, $installHelper;
 
-        exec('rm -rf '.BASEPATH.'/wp-content');
+        exec('rm -rf '.WPBOOT_BASEPATH.'/wp-content');
         $testHelpers->deleteWpInstallation();
         $testHelpers->deleteState();
         $testHelpers->removeSettings();
@@ -46,8 +46,8 @@ class LocalPluginTest extends \PHPUnit_Framework_TestCase
     {
 
         exec('wp bootstrap setup');
-        /*require_once(BASEPATH.'/www/wordpress-test/wp-load.php');
-        require_once(BASEPATH.'/www/wordpress-test/wp-admin/includes/plugin.php');
+        /*require_once(WPBOOT_BASEPATH.'/www/wordpress-test/wp-load.php');
+        require_once(WPBOOT_BASEPATH.'/www/wordpress-test/wp-admin/includes/plugin.php');
         wp_cache_delete('plugins', 'plugins');
         $plugins = get_plugins();*/
 
@@ -99,7 +99,7 @@ class LocalPluginTest extends \PHPUnit_Framework_TestCase
         $app = $testHelpers->getAppWithMockCli();
         Bootstrap::setApplication($app);
 
-        require_once(BASEPATH.'/www/wordpress-test/wp-load.php');
+        require_once(WPBOOT_BASEPATH.'/www/wordpress-test/wp-load.php');
         $setup = $app['setup'];
         $setup->run([], []);
     }

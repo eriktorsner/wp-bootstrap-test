@@ -12,16 +12,18 @@ class MockCliWrapper
     public $warning = [];
     public $error = [];
 
+    public $launch_self_return = null;
+
     public function __construct($runner = null)
     {
         $this->runner = $runner;
 
         if (!$runner) {
             $this->runner = new \stdClass();
-            $this->runner->config = ['path' => BASEPATH . '/www/wordpress-test'];
+            $this->runner->config = ['path' => WPBOOT_BASEPATH . '/www/wordpress-test'];
             $this->runner->arguments = [];
             $this->runner->assoc_args = [];
-            $this->runner->project_config_path = BASEPATH . '/wp-cli.yml';
+            $this->runner->project_config_path = WPBOOT_BASEPATH . '/wp-cli.yml';
         }
     }
 
@@ -128,6 +130,10 @@ class MockCliWrapper
         $return_detailed = false,
         $runtime_args = array()
     ) {
+
+        if ($this->launch_self_return) {
+            return $this->launch_self_return;
+        }
 
         return (object)[
             'return_code' => 0,

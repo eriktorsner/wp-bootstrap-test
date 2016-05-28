@@ -8,8 +8,8 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
-        if (!defined('BASEPATH')) {
-            define('BASEPATH', getcwd());
+        if (!defined('WPBOOT_BASEPATH')) {
+            define('WPBOOT_BASEPATH', getcwd());
         }
     }
 
@@ -21,10 +21,10 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         $app = $testHelpers->getAppWithMockCli();
 
         $expected = [
-            'path' =>  BASEPATH .'/www/wordpress-test',
+            'path' =>  WPBOOT_BASEPATH .'/www/wordpress-test',
             'args' => [],
             'assocArgs' => [],
-            'ymlPath' => BASEPATH . '/wp-cli.yml',
+            'ymlPath' => WPBOOT_BASEPATH . '/wp-cli.yml',
         ];
         foreach ($expected as $key => $value) {
             $this->assertEquals($value, $app[$key]);
@@ -36,7 +36,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         global $testHelpers;
         $testHelpers->removeSettings();
         $testHelpers->writeWpYaml([
-            'path' => BASEPATH . '/www/wordpress-test',
+            'path' => WPBOOT_BASEPATH . '/www/wordpress-test',
         ]);
 
         $app = $testHelpers->getAppWithMockCli();
@@ -48,7 +48,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         global $testHelpers;
         $testHelpers->removeSettings();
         $testHelpers->writeWpYaml([
-            'path' => BASEPATH . '/www/wordpress-test',
+            'path' => WPBOOT_BASEPATH . '/www/wordpress-test',
             'environment' => 'test',
         ]);
 
@@ -61,7 +61,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         global $testHelpers;
         $testHelpers->removeSettings();
         $testHelpers->writeWpYaml([
-            'path' => BASEPATH . '/www/wordpress-test',
+            'path' => WPBOOT_BASEPATH . '/www/wordpress-test',
             'environment' => 'test',
         ]);
         $testHelpers->writeDotEnv(['somekey' => 'somevalue']);
@@ -75,7 +75,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         global $testHelpers;
         $testHelpers->removeSettings();
         $testHelpers->writeWpYaml([
-            'path' => BASEPATH . '/www/wordpress-test',
+            'path' => WPBOOT_BASEPATH . '/www/wordpress-test',
             'environment' => 'test',
         ]);
         $testHelpers->writeDotEnv(['somekey' => 'somevalue', 'otherkey' => 'othervalue']);

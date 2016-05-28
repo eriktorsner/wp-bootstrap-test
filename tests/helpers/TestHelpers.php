@@ -18,7 +18,7 @@ class TestHelpers
         foreach ($arr as $key => $value) {
             $out .= "$key=$value\n";
         }
-        file_put_contents(BASEPATH."/.env$suffix", $out);
+        file_put_contents(WPBOOT_BASEPATH."/.env$suffix", $out);
     }
 
     /**
@@ -27,7 +27,7 @@ class TestHelpers
     public function writeWpYaml($config)
     {
         $dumper = new Dumper();
-        file_put_contents(BASEPATH . '/wp-cli.yml', $dumper->dump($config, 2));
+        file_put_contents(WPBOOT_BASEPATH . '/wp-cli.yml', $dumper->dump($config, 2));
     }
 
     /**
@@ -39,11 +39,11 @@ class TestHelpers
         if ($format == 'yaml') {
             $dumper = new Dumper();
             $settings = json_decode(json_encode($settings), true);
-            file_put_contents(BASEPATH . '/appsettings.yml', $dumper->dump($settings, 2));
+            file_put_contents(WPBOOT_BASEPATH . '/appsettings.yml', $dumper->dump($settings, 2));
             return;
         }
         if ($format == 'json') {
-            file_put_contents(BASEPATH . '/appsettings.json', json_encode($settings, JSON_PRETTY_PRINT));
+            file_put_contents(WPBOOT_BASEPATH . '/appsettings.json', json_encode($settings, JSON_PRETTY_PRINT));
         }
     }
 
@@ -52,17 +52,17 @@ class TestHelpers
      */
     public function removeSettings()
     {
-        @unlink(BASEPATH . '/appsettings.yml');
-        @unlink(BASEPATH . '/appsettings.json');
-        @unlink(BASEPATH . '/wp-cli.yml');
-        @unlink(BASEPATH . '/.env');
-        @unlink(BASEPATH . '/.env-test');
-        @unlink(BASEPATH . '/.env-development');
+        @unlink(WPBOOT_BASEPATH . '/appsettings.yml');
+        @unlink(WPBOOT_BASEPATH . '/appsettings.json');
+        @unlink(WPBOOT_BASEPATH . '/wp-cli.yml');
+        @unlink(WPBOOT_BASEPATH . '/.env');
+        @unlink(WPBOOT_BASEPATH . '/.env-test');
+        @unlink(WPBOOT_BASEPATH . '/.env-development');
 
         // during testing, we need to drag bootstrap into
         // wp-cli
         file_put_contents(
-            BASEPATH . '/wp-cli.yml',
+            WPBOOT_BASEPATH . '/wp-cli.yml',
             "require:\n    - vendor/autoload.php\n"
         );
     }
@@ -91,7 +91,7 @@ class TestHelpers
             'mysql -u %s -p%s < %s/tests/helpers/resetdatabase.sql',
             'wordpress',
             'wordpress',
-            BASEPATH
+            WPBOOT_BASEPATH
         );
         exec($mysql);
 
@@ -102,7 +102,7 @@ class TestHelpers
     public function copySettingsFiles($path)
     {
         $src = "$path/appsettings.yml";
-        $trg = BASEPATH.'/appsettings.yml';
+        $trg = WPBOOT_BASEPATH.'/appsettings.yml';
         if (file_exists($src)) {
             copy($src, $trg);
         }
@@ -110,26 +110,26 @@ class TestHelpers
 
     public function clearSettingsFiles()
     {
-        @unlink(BASEPATH.'/localsettings.json');
-        @unlink(BASEPATH.'/appsettings.json');
-        @unlink(BASEPATH.'/wp-cli.yml');
+        @unlink(WPBOOT_BASEPATH.'/localsettings.json');
+        @unlink(WPBOOT_BASEPATH.'/appsettings.json');
+        @unlink(WPBOOT_BASEPATH.'/wp-cli.yml');
     }
 
     public function deleteState()
     {
-        $cmd = 'rm -rf '.BASEPATH.'/bootstrap/*';
+        $cmd = 'rm -rf '.WPBOOT_BASEPATH.'/bootstrap/*';
         exec($cmd);
     }
 
     public function copyState($path)
     {
-        @mkdir(BASEPATH.'/bootstrap/', 0777, true);
-        exec(sprintf("cp -fa $path/* %s/bootstrap/", BASEPATH));
-        @exec(sprintf('mv %s/bootstrap/appsettings.yml %s/', BASEPATH, BASEPATH));
+        @mkdir(WPBOOT_BASEPATH.'/bootstrap/', 0777, true);
+        exec(sprintf("cp -fa $path/* %s/bootstrap/", WPBOOT_BASEPATH));
+        @exec(sprintf('mv %s/bootstrap/appsettings.yml %s/', WPBOOT_BASEPATH, WPBOOT_BASEPATH));
 
-        exec('rm -rf '.BASEPATH.'/wp-content');
-        if (file_exists(BASEPATH.'/bootstrap/wp-content')) {
-            $cmd = sprintf('mv %s/bootstrap/wp-content %s/', BASEPATH, BASEPATH);
+        exec('rm -rf '.WPBOOT_BASEPATH.'/wp-content');
+        if (file_exists(WPBOOT_BASEPATH.'/bootstrap/wp-content')) {
+            $cmd = sprintf('mv %s/bootstrap/wp-content %s/', WPBOOT_BASEPATH, WPBOOT_BASEPATH);
             exec($cmd);
         }
     }
@@ -138,10 +138,10 @@ class TestHelpers
     {
         copySettingsFiles($prefix);
 
-        $cmd = BASEPATH.'/wp-bootstrap/bin/wpbootstrap wp-install';
+        $cmd = WPBOOT_BASEPATH.'/wp-bootstrap/bin/wpbootstrap wp-install';
         exec($cmd);
 
-        $cmd = BASEPATH.'/wp-bootstrap/bin/wpbootstrap wp-setup';
+        $cmd = WPBOOT_BASEPATH.'/wp-bootstrap/bin/wpbootstrap wp-setup';
         exec($cmd);
     }
 

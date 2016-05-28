@@ -24,7 +24,7 @@ class CmdOptionsnapTest extends \PHPUnit_Framework_TestCase
         $app = $testHelpers->getAppWithMockCli();
         Bootstrap::setApplication($app);
         $helpers = $app['helpers'];
-        $helpers->recursiveRemoveDirectory(BASEPATH . '/bootstrap/snapshots');
+        $helpers->recursiveRemoveDirectory(WPBOOT_BASEPATH . '/bootstrap/snapshots');
 
         \WP_Mock::wpfunction('wp_cache_delete', ['times' => 1]);
         $wpdb = $this->getMock('wpdb', ['get_col']);
@@ -35,7 +35,7 @@ class CmdOptionsnapTest extends \PHPUnit_Framework_TestCase
         $snapper = new OptionSnap();
         $snapper->snap(['snap1'], []);
 
-        $file = BASEPATH . '/bootstrap/snapshots/snap1.snapshot';
+        $file = WPBOOT_BASEPATH . '/bootstrap/snapshots/snap1.snapshot';
         $this->assertTrue(file_exists($file));
         $content = unserialize(file_get_contents($file));
         foreach (['name', 'created', 'environment', 'host', 'options', 'comment'] as $member) {

@@ -68,7 +68,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $app = $testHelpers->getAppWithMockCli();
         Bootstrap::setApplication($app);
         $helpers = $app['helpers'];
-        $helpers->recursiveRemoveDirectory(BASEPATH . '/bootstrap');
+        $helpers->recursiveRemoveDirectory(WPBOOT_BASEPATH . '/bootstrap');
 
         // Mocking for this test
         $this->mockForImport();
@@ -84,7 +84,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $app = $testHelpers->getAppWithMockCli();
         Bootstrap::setApplication($app);
         $helpers = $app['helpers'];
-        $helpers->recursiveRemoveDirectory(BASEPATH . '/bootstrap');
+        $helpers->recursiveRemoveDirectory(WPBOOT_BASEPATH . '/bootstrap');
 
         // Set up some files
         $this->saveWpCfmSettings((object)['.label' => 'wpbootstrap']);
@@ -107,7 +107,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $app = $testHelpers->getAppWithMockCli();
         Bootstrap::setApplication($app);
         $helpers = $app['helpers'];
-        $helpers->recursiveRemoveDirectory(BASEPATH . '/bootstrap');
+        $helpers->recursiveRemoveDirectory(WPBOOT_BASEPATH . '/bootstrap');
 
         // Set up some files
         $this->saveWpCfmSettings((object)['.label' => 'wpbootstrap']);
@@ -186,7 +186,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     {
         $fName = $obj['post_name'];
         $subtype = $obj['post_type'];
-        $folder = BASEPATH . "/bootstrap/$type/$subtype";
+        $folder = WPBOOT_BASEPATH . "/bootstrap/$type/$subtype";
         @mkdir($folder, 0777, true);
         $dumper = new Dumper();
         file_put_contents("$folder/$fName", $dumper->dump($obj, 4));
@@ -196,7 +196,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     {
         $fName = $obj['slug'];
         $taxName = $obj['taxonomy'];
-        $folder = BASEPATH . "/bootstrap/taxonomies/$taxName";
+        $folder = WPBOOT_BASEPATH . "/bootstrap/taxonomies/$taxName";
         @mkdir($folder, 0777, true);
         $dumper = new Dumper();
         file_put_contents("$folder/$fName", $dumper->dump($obj, 4));
@@ -204,7 +204,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     private function saveMedia($obj)
     {
-        $folder = BASEPATH . "/bootstrap/media/{$obj['post_name']}";
+        $folder = WPBOOT_BASEPATH . "/bootstrap/media/{$obj['post_name']}";
         @mkdir($folder, 0777, true);
         $dumper = new Dumper();
         file_put_contents("$folder/meta", $dumper->dump($obj, 4));
@@ -213,7 +213,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     private function saveWpCfmSettings($obj)
     {
-        $folder = BASEPATH . "/bootstrap/config";
+        $folder = WPBOOT_BASEPATH . "/bootstrap/config";
         @mkdir($folder, 0777, true);
         file_put_contents("$folder/wpbootstrap.json", json_encode($obj));
     }

@@ -264,9 +264,9 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
         Bootstrap::setApplication($app);
         $h = $app['helpers'];
 
-        @mkdir(BASEPATH . '/bootstrap/config', 0777, true);
+        @mkdir(WPBOOT_BASEPATH . '/bootstrap/config', 0777, true);
         file_put_contents(
-            BASEPATH . '/bootstrap/config/wpbootstrap.json',
+            WPBOOT_BASEPATH . '/bootstrap/config/wpbootstrap.json',
             json_encode((object)[".label" => "wpbootstrap"])
         );
 

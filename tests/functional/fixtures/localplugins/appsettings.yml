@@ -3,8 +3,9 @@ keepDefaultContent: true
 plugins:
     standard:
       - wp-cfm
+      - https://github.com/wp-plugins/wordpress-importer/archive/master.zip
+      - wp-pagenavi:2.89
     local:
-      - foobar
       - foobar2:
           slug: foobar2
           requires:
@@ -13,6 +14,8 @@ plugins:
       - foobar3:
           requires:
               plugins: ['wp-cfm', 'foobar', 'foobar2']
+    localcopy:
+      - foobar
 
 themes:
     active: footheme2

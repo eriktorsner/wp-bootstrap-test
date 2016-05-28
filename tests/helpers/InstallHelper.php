@@ -7,7 +7,7 @@ class InstallHelper
         global $testHelpers;
 
         $testHelpers->writeDotEnv([
-            'wppath' => BASEPATH . '/www/wordpress-test',
+            'wppath' => WPBOOT_BASEPATH . '/www/wordpress-test',
             'wpurl' => 'test.wpbootstraptest.local',
             'dbhost' => 'localhost',
             'dbname' => 'wordpress-test',
@@ -18,7 +18,7 @@ class InstallHelper
         ]);
         $testHelpers->writeWpYaml([
             'require' => ['vendor/autoload.php'],
-            'path' => BASEPATH . '/www/wordpress-test',
+            'path' => WPBOOT_BASEPATH . '/www/wordpress-test',
         ]);
         $testHelpers->writeAppsettings(
             [

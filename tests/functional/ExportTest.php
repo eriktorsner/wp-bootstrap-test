@@ -25,7 +25,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $this->runExport();
 
-        $this->assertFalse(file_exists(BASEPATH.'/bootstrap'));
+        $this->assertFalse(file_exists(WPBOOT_BASEPATH.'/bootstrap'));
     }
 
     /**
@@ -50,12 +50,12 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $this->runExport();
 
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/posts'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/posts/page'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/posts/page/sample-page'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/posts'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/posts/page'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/posts/page/sample-page'));
 
-        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/posts/page/sample-page'));
+        $obj = $yaml->parse(file_get_contents(WPBOOT_BASEPATH.'/bootstrap/posts/page/sample-page'));
         $this->assertTrue($obj['post_name'] == 'sample-page');
         $this->assertTrue($obj['post_type'] == 'page');
         $neutral = Bootstrap::NEUTRALURL;
@@ -88,12 +88,12 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $this->runExport();
 
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/menus'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/menus/main'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/menus/main/3'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/menus'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/menus/main'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/menus/main/3'));
 
-        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/menus/main/3'));
+        $obj = $yaml->parse(file_get_contents(WPBOOT_BASEPATH.'/bootstrap/menus/main/3'));
         $this->assertTrue($obj['post_name'] == 3);
         $this->assertTrue($obj['post_type'] == 'nav_menu_item');
         $neutral = Bootstrap::NEUTRALURL;
@@ -102,14 +102,14 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         // as a side effect, the sample-page should also have been exported
         // even if it's not included in the appsettings file.
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/posts'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/posts/page'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/posts/page/sample-page'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/posts'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/posts/page'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/posts/page/sample-page'));
 
         // and as another side effect, a taxonomy term should also have been exported
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category/uncategorized'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/taxonomies'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/taxonomies/category'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/taxonomies/category/uncategorized'));
     }
 
     /**
@@ -123,16 +123,16 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $this->runExport();
 
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/media'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/media'));
 
         // since WP 4.5 or wp-cli 0.23, the default name for an imported
         // image will be image name minus extension...
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/media/sampleimage'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/media/sampleimage/meta'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/media/sampleimage/sampleimage.png'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/media/sampleimage'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/media/sampleimage/meta'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/media/sampleimage/sampleimage.png'));
 
-        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/media/sampleimage/meta'));
+        $obj = $yaml->parse(file_get_contents(WPBOOT_BASEPATH.'/bootstrap/media/sampleimage/meta'));
         $this->assertTrue($obj['post_name'] == 'sampleimage');
         $this->assertTrue($obj['post_type'] == 'attachment');
         $this->assertTrue(isset($obj['post_meta']));
@@ -158,11 +158,11 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $this->runExport();
 
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category/uncategorized'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/taxonomies'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/taxonomies/category'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/taxonomies/category/uncategorized'));
 
-        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/taxonomies/category/uncategorized'));
+        $obj = $yaml->parse(file_get_contents(WPBOOT_BASEPATH.'/bootstrap/taxonomies/category/uncategorized'));
         $this->assertTrue($obj['name'] == 'Uncategorized');
         $this->assertTrue($obj['slug'] == 'uncategorized');
         $this->assertTrue($obj['taxonomy'] == 'category');
@@ -190,12 +190,12 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $this->runExport();
 
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category/fruit'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/taxonomies/category/apple'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/taxonomies'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/taxonomies/category'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/taxonomies/category/fruit'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/taxonomies/category/apple'));
 
-        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/taxonomies/category/apple'));
+        $obj = $yaml->parse(file_get_contents(WPBOOT_BASEPATH.'/bootstrap/taxonomies/category/apple'));
         $this->assertTrue($obj['name'] == 'Apple');
         $this->assertTrue($obj['slug'] == 'apple');
         $this->assertTrue($obj['description'] == 'Specific fruits');
@@ -223,10 +223,10 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $this->runExport();
 
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/config'));
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/config/wpbootstrap.json'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/config'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/config/wpbootstrap.json'));
 
-        $obj = json_decode(file_get_contents(BASEPATH.'/bootstrap/config/wpbootstrap.json'));
+        $obj = json_decode(file_get_contents(WPBOOT_BASEPATH.'/bootstrap/config/wpbootstrap.json'));
         $label = '.label';
         $this->assertTrue(count($obj) > 0);
         $this->assertTrue($obj->$label == 'wpbootstrap');
@@ -251,8 +251,8 @@ class ExportTest extends \PHPUnit_Framework_TestCase
 
         $this->runExport();
 
-        $this->assertTrue(file_exists(BASEPATH.'/bootstrap/sidebars/sidebar-1/calendar-1'));
-        $obj = $yaml->parse(file_get_contents(BASEPATH.'/bootstrap/sidebars/sidebar-1/calendar-1'));
+        $this->assertTrue(file_exists(WPBOOT_BASEPATH.'/bootstrap/sidebars/sidebar-1/calendar-1'));
+        $obj = $yaml->parse(file_get_contents(WPBOOT_BASEPATH.'/bootstrap/sidebars/sidebar-1/calendar-1'));
         $this->assertEquals('Foobar', $obj['title']);
     }
 
@@ -263,9 +263,9 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $app = $testHelpers->getAppWithMockCli();
         Bootstrap::setApplication($app);
         $helpers = $app['helpers'];
-        $helpers->recursiveRemoveDirectory(BASEPATH . '/bootstrap');
+        $helpers->recursiveRemoveDirectory(WPBOOT_BASEPATH . '/bootstrap');
 
-        require_once(BASEPATH.'/www/wordpress-test/wp-load.php');
+        require_once(WPBOOT_BASEPATH.'/www/wordpress-test/wp-load.php');
         $export = $app['export'];
         $export->run([], []);
     }
