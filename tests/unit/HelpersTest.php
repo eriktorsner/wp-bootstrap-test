@@ -275,4 +275,49 @@ class HelpersTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(isset($ret->{'.label'}));
     }
 
+    public function testEnsureDefineInFile()
+    {
+        global $testHelpers;
+        $app = $testHelpers->getAppWithMockCli();
+        Bootstrap::setApplication($app);
+        $h = $app['helpers'];
+
+        $file = WPBOOT_BASEPATH . '/test-config.php';
+
+        file_put_contents(
+            $file,
+            "<?php\n\n"
+        );
+
+        $h->ensureDefineInFile($file, 'foobar', 'foovalue');
+        $lines = file($file);
+        $patterns = [
+            preg_quote("/Added by WP Bootstrap/"),
+            preg_quote("/if (!defined('foobar'))/"),
+            preg_quote("/define('foobar', 'foovalue');/"),
+        ];
+
+        foreach ($patterns as $pattern) {
+            $this->assertTrue(count(preg_grep($pattern, $lines)) > 0);
+        }
+
+        $h->ensureDefineInFile($file, 'foobar', 'foovalue2');
+        $lines = file($file);
+        $patterns = [
+            preg_quote("/Added by WP Bootstrap/"),
+            preg_quote("/if (!defined('foobar'))/"),
+            preg_quote("/define('foobar', 'foovalue2');/"),
+        ];
+
+        foreach ($patterns as $pattern) {
+            $this->assertTrue(count(preg_grep($pattern, $lines)) > 0);
+        }
+
+        $h->ensureDefineInFile($file . 'jada', 'foobar', 'foovalue2');
+        foreach ($patterns as $pattern) {
+            $this->assertTrue(count(preg_grep($pattern, $lines)) > 0);
+        }
+
+    }
+
 }
